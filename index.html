@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Waybar Config Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs/loader.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Генератор конфигурации Waybar</h1>
+        </div>
+
+        <div class="main">
+            <div class="controls">
+                <label>Расположение</label>
+                <select id="position" onchange="generateConfig()">
+                    <option value="top">Сверху</option>
+                    <option value="bottom">Снизу</option>
+                </select>
+
+                <label>Высота панели (px)</label>
+                <input type="number" id="height" value="30" onchange="generateConfig()">
+
+                <h3 class="section-title">Доступные модули</h3>
+
+                <!-- Sway/Window Manager модули -->
+                <div class="module-group">
+                    <div class="group-header">Sway/WM</div>
+                    <div class="module-list">
+                        <div class="module" draggable="true" data-module="sway/workspaces">workspaces</div>
+                        <div class="module" draggable="true" data-module="sway/mode">mode</div>
+                        <div class="module" draggable="true" data-module="sway/window">window</div>
+                        <div class="module" draggable="true" data-module="sway/scratchpad">scratchpad</div>
+                        <div class="module" draggable="true" data-module="wlr/taskbar">taskbar</div>
+                        <div class="module" draggable="true" data-module="wlr/workspaces">workspaces</div>
+                    </div>
+                </div>
+
+                <!-- Системные модули -->
+                <div class="module-group">
+                    <div class="group-header">Система</div>
+                    <div class="module-list">
+                        <div class="module" draggable="true" data-module="cpu">cpu</div>
+                        <div class="module" draggable="true" data-module="memory">memory</div>
+                        <div class="module" draggable="true" data-module="temperature">temperature</div>
+                        <div class="module" draggable="true" data-module="disk">disk</div>
+                        <div class="module" draggable="true" data-module="battery">battery</div>
+                        <div class="module" draggable="true" data-module="backlight">backlight</div>
+                    </div>
+                </div>
+
+                <!-- Мультимедиа модули -->
+                <div class="module-group">
+                    <div class="group-header">Мультимедиа</div>
+                    <div class="module-list">
+                        <div class="module" draggable="true" data-module="pulseaudio">pulseaudio</div>
+                        <div class="module" draggable="true" data-module="wireplumber">wireplumber</div>
+                        <div class="module" draggable="true" data-module="mpd">mpd</div>
+                        <div class="module" draggable="true" data-module="mpris">mpris</div>
+                    </div>
+                </div>
+
+                <!-- Сеть и коммуникации -->
+                <div class="module-group">
+                    <div class="group-header">Сеть</div>
+                    <div class="module-list">
+                        <div class="module" draggable="true" data-module="network">network</div>
+                        <div class="module" draggable="true" data-module="bluetooth">bluetooth</div>
+                        <div class="module" draggable="true" data-module="wifi">wifi</div>
+                    </div>
+                </div>
+
+                <!-- Утилиты -->
+                <div class="module-group">
+                    <div class="group-header">Утилиты</div>
+                    <div class="module-list">
+                        <div class="module" draggable="true" data-module="clock">clock</div>
+                        <div class="module" draggable="true" data-module="tray">tray</div>
+                        <div class="module" draggable="true" data-module="idle_inhibitor">idle_inhibitor</div>
+                        <div class="module" draggable="true" data-module="custom/weather">weather</div>
+                        <div class="module" draggable="true" data-module="custom/notification">notification</div>
+                    </div>
+                </div>
+
+                <div class="delete-zone" id="delete-zone">
+                    Перетащите сюда модуль для удаления
+                </div>
+            </div>
+
+            <div class="preview">
+                <div class="waybar-preview">
+                    <h3 class="section-title">Левая часть</h3>
+                    <div class="dropzone" id="left-modules"></div>
+
+                    <h3 class="section-title">Центральная часть</h3>
+                    <div class="dropzone" id="center-modules"></div>
+
+                    <h3 class="section-title">Правая часть</h3>
+                    <div class="dropzone" id="right-modules"></div>
+                </div>
+                <div class="editor-container" id="editor"></div>
+                <button class="copy-button" onclick="copyConfig()">Копировать конфиг</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
