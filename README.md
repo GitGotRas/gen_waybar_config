@@ -1,0 +1,1 @@
+# gen_waybar_config
